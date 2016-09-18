@@ -6,7 +6,7 @@
     <script src="../src/mockFactory.js"></script>
     <script>
         var user = new window.MockFactory({
-            url:'test/index',
+            url:'test/user',
             pk:'id',
             data:[
                 {
@@ -21,7 +21,7 @@
             ]
         });
         function search() {
-            var url = 'test/index';
+            var url = 'test/user';
             var sex = document.getElementById('slSex').value;
             var name = document.getElementById('txtName').value;
             var params =[];

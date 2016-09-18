@@ -12,7 +12,7 @@ mock lib for fed
 ```js
  <script>
     var user = new window.MockFactory({
-        url:'test/index',//资源路径
+        url:'test/user',//资源路径
         pk:'id',//主键:对象识别字段(默认是id)
         data:[//
             {
@@ -34,14 +34,14 @@ mock lib for fed
 ```js
     //用回调的方式获取结果
     user.get({
-        url:'test/index/2',
+        url:'test/user/2',
         success:function(res){
             console.log(res.data)
         }
     });
     //或者用promise 的方式获取结果
      user.get({
-        url:'test/index/2'
+        url:'test/user/2'
      }).then(function(res){
         console.log(res.data)
      });
@@ -58,7 +58,7 @@ result:
 #### 根据条件搜索
 ```js
      user.search({
-        url:'test/index?sex=M&name=z3'
+        url:'test/user?sex=M&name=z3'
      }).then(function(res){
         console.log(res.data)
      });
