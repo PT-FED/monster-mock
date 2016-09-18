@@ -84,7 +84,7 @@
       config.showLog=false;
     };
     //设置 发起数据请求时，打印log
-    MockFactory.showLog = function () {
+    MockFactory.enableLog = function () {
         config.showLog=true;
     };
 

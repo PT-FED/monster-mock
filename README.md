@@ -28,8 +28,16 @@ mock lib for fed
     });
  </script>
 ```
-
-### 查询
+## 设置
+####开启打印(发起请求／响应请求 时，都会在控制台打印请求／响应信息)
+```js
+    MockFactory.enableLog()
+```
+####关闭打印
+```js
+    MockFactory.disableLog()
+```
+## 查询
 #### 获取指定资源(根据主键查询)
 ```js
     //用回调的方式获取结果
