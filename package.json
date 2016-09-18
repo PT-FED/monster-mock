@@ -1,0 +1,19 @@
+{
+  "name": "monster-mock",
+  "version": "1.0.0",
+  "description": "mock lib for fed",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PT-FED/monster-mock.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PT-FED/monster-mock/issues"
+  },
+  "homepage": "https://github.com/PT-FED/monster-mock#readme"
+}

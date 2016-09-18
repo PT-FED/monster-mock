@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../src/mockFactory.js"></script>
+    <script>
+        var user = new window.MockFactory({
+            url:'test/index',
+            pk:'id',
+            data:[
+                {
+                    id:1,
+                    name:'z3',
+                    sex:'M'
+                },{
+                    id:2,
+                    name:'l4',
+                    sex:'F'
+                }
+            ]
+        });
+        function search() {
+            var url = 'test/index';
+            var sex = document.getElementById('slSex').value;
+            var name = document.getElementById('txtName').value;
+            var params =[];
+            if(sex){
+                params.push({'key':'sex','value':sex});
+            }
+            if(name){
+                params.push({'key':'name','value':name});
+            }
+            var paramsString = params.map(function (p) {
+                return p.key +'='+p.value;
+            }).join('&');
+            if(paramsString){
+                url= url+'?'+paramsString;
+            }
+            user.search({url:url,success:function (res) {
+                console.log(res);
+            }});
+        }
+    </script>
+</head>
+<body>
+    <select  id="slSex">
+        <option value="">全部</option>
+        <option value="M">男</option>
+        <option value="F">女</option>
+    </select>
+    <input type="text" id="txtName">
+    <button onclick="search()">search</button>
+</body>
+</html>
