@@ -46,7 +46,7 @@ mock lib for fed
         console.log(res.data)
      });
 ```
-result: 
+result: 返回单一对象
 ```js
     {
         id:2,
@@ -63,7 +63,7 @@ result:
         console.log(res.data)
      });
 ```
-result: 
+result: 返回数组
 ```js
     [
         {
