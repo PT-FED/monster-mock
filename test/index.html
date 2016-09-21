@@ -6,17 +6,17 @@
     <script src="../src/mockFactory.js"></script>
     <script>
         var user = new window.MockFactory({
-            url:'test/user',
-            pk:'id',
-            data:[
+            url: 'test/user',
+            pk: 'id',
+            data: [
                 {
-                    id:1,
-                    name:'z3',
-                    sex:'M'
-                },{
-                    id:2,
-                    name:'l4',
-                    sex:'F'
+                    id: 1,
+                    name: 'z3',
+                    sex: 'M'
+                }, {
+                    id: 2,
+                    name: 'l4',
+                    sex: 'F'
                 }
             ]
         });
@@ -24,32 +24,139 @@
             var url = 'test/user';
             var sex = document.getElementById('slSex').value;
             var name = document.getElementById('txtName').value;
-            var params =[];
-            if(sex){
-                params.push({'key':'sex','value':sex});
+            var params = [];
+            if (sex) {
+                params.push({'key': 'sex', 'value': sex});
             }
-            if(name){
-                params.push({'key':'name','value':name});
+            if (name) {
+                params.push({'key': 'name', 'value': name});
             }
             var paramsString = params.map(function (p) {
-                return p.key +'='+p.value;
+                return p.key + '=' + p.value;
             }).join('&');
-            if(paramsString){
-                url= url+'?'+paramsString;
+            if (paramsString) {
+                url = url + '?' + paramsString;
             }
-            user.search({url:url,success:function (res) {
-                console.log(res);
-            }});
+            user.search({
+                url: url, success: function (res) {
+                    bindUser(res.data);
+                }
+            });
+        }
+        function addUser() {
+            user.add({url: 'test/user', data: {name: 'wang5', sex: 'F'}}).then(function () {
+                console.log('add success!!!');
+                search();
+            })
+        }
+        function bindUser(list) {
+            var userList = document.getElementById('userList');
+            userList.innerHTML = '';
+            var usersHtml = list.map(function (u) {
+                return [
+                    '<tr>',
+                    '<td>',
+                    u.id,
+                    '</td>',
+                    '<td>',
+                    u.name,
+                    '</td>',
+                    '<td>',
+                    u.sex,
+                    '</td>',
+                    '<td>',
+                    '<button name="delete" userid="' + u.id + '">delete</button>',
+                    '<button name="detail" userid="' + u.id + '">detail</button>',
+                    '</td>',
+                    '</tr>'
+                ].join('');
+            });
+            userList.innerHTML = usersHtml.join('');
+        }
+        function showDetail(u) {
+            document.getElementById('txtIdDetail').value = u.id;
+            document.getElementById('txtNameDetail').value = u.name;
+            document.getElementById('slSexDetail').value = u.sex;
+        }
+        window.onload = function () {
+            search();
+            document.addEventListener('click', function (e) {
+                if (e.target.name == 'delete') {
+                    var id = e.target.getAttribute('userid');
+                    user.delete({url: 'test/user/' + id}).then(function () {
+                        console.log('delete success!!!');
+                        search();
+                    });
+                }
+            });
+            document.addEventListener('click', function (e) {
+                if (e.target.name == 'detail') {
+                    var id = e.target.getAttribute('userid');
+                    user.get({url: 'test/user/' + id}).then(function (res) {
+                        console.log('get success!!!')
+                        showDetail(res.data);
+                    });
+                }
+            });
+            document.getElementById('btnSave').addEventListener('click', function () {
+                var id = document.getElementById('txtIdDetail').value;
+                var name = document.getElementById('txtNameDetail').value;
+                var sex = document.getElementById('slSexDetail').value;
+                user.update({url: 'test/user',data:{
+                    id:id,
+                    name:name,
+                    sex:sex
+                }}).then(function (res) {
+                    console.log('update success!!!')
+                    search();
+                });
+
+            })
         }
     </script>
 </head>
 <body>
-    <select  id="slSex">
+<h3>搜索条件</h3>
+性别
+<select id="slSex">
+    <option value="">全部</option>
+    <option value="M">男</option>
+    <option value="F">女</option>
+</select>
+姓名
+<input type="text" id="txtName">
+<button onclick="search()">search</button>
+<button onclick="addUser()">add</button>
+<hr>
+<h3>user list</h3>
+<table width="100%" border="1" cellpadding="0" cellspacing="0">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>sex</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody id="userList">
+
+    </tbody>
+</table>
+<hr>
+<h3>user detail</h3>
+<div>
+    id
+    <input type="text" id="txtIdDetail" readonly>
+    性别
+    <select id="slSexDetail">
         <option value="">全部</option>
         <option value="M">男</option>
         <option value="F">女</option>
     </select>
-    <input type="text" id="txtName">
-    <button onclick="search()">search</button>
+    姓名
+    <input type="text" id="txtNameDetail">
+
+    <button id="btnSave">save</button>
+</div>
 </body>
 </html>

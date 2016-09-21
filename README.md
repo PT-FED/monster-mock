@@ -81,3 +81,23 @@ result: 返回数组
         }
     ]
 ```
+
+##删除
+```js
+    user.delete({url: 'test/user/2'}).then(function () {
+        console.log('delete success!!!');
+    });
+```
+
+##添加
+```js
+    user.add({url: 'test/user', data: {name: 'wang5', sex: 'F'}}).then(function () {
+        console.log('add success!!!');
+    })
+```
+##修改
+```js
+    user.update({url: 'test/user', data: {id:1,name: 'wang5', sex: 'F'}}).then(function () {
+        console.log('update success!!!');
+    })
+```

@@ -100,7 +100,7 @@
        return this._mock.data.filter(function (obj) {
             var isMatch = true;
             if(pk){
-                if(obj[mockFactory._mock.pk] == pk){
+                if(obj[mockFactory._mock.pk] != pk){
                     isMatch=false;
                 }
             }
@@ -156,6 +156,81 @@
         });
     };
 
+
+    MockFactory.prototype.delete = function (req) {
+        var mockFactory = this;
+        MockFactory.print(req);
+        return new Promise(function (resolve,reject) {
+            var reqInfo = Util.parseReq(req.url, mockFactory._mock);
+
+            var resData = mockFactory._filter(reqInfo.pk,[]);
+            if(resData.length){
+                resData = resData[0];
+                mockFactory._mock.data.splice( mockFactory._mock.data.indexOf(resData),1);
+            }else{
+                resData=null;
+            }
+            var res = {
+                status:'success',
+                data:resData
+            };
+            MockFactory.print(res);
+            if(req.success){
+                req.success(res);
+            }
+            resolve(res);
+        });
+    };
+
+    MockFactory.prototype.add = function (req) {
+        var mockFactory = this;
+        MockFactory.print(req);
+
+        return new Promise(function (resolve,reject) {
+            var data = req.data;
+            data[mockFactory._mock.pk] = Util.generateUUID();
+            mockFactory._mock.data.push(data);
+
+            var res = {
+                status:'success',
+                data:data
+            };
+            MockFactory.print(res);
+            if(req.success){
+                req.success(res);
+            }
+            resolve(res);
+        });
+    };
+
+    MockFactory.prototype.update = function (req) {
+        var mockFactory = this;
+        MockFactory.print(req);
+
+        return new Promise(function (resolve,reject) {
+            var data = req.data;
+
+            mockFactory._mock.data.forEach(function (d) {
+                if(d[mockFactory._mock.pk] ==data[mockFactory._mock.pk]){
+                    for(var key in data){
+                       if(data.hasOwnProperty(key)){
+                           d[key]=data[key];
+                        }
+                    }
+                }
+            });
+
+            var res = {
+                status:'success',
+                data:data
+            };
+            MockFactory.print(res);
+            if(req.success){
+                req.success(res);
+            }
+            resolve(res);
+        });
+    };
     window.MockFactory = MockFactory;
 })(window);
 
